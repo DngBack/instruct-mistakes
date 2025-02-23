@@ -1,0 +1,30 @@
+version: '3.7'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  interact-based:
+    build:
+      context: backend
+      dockerfile: interact-based/Dockerfile
+    ports:
+      - "3003:3003"
+    command: [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3003", "--reload" ]
+    networks:
+      - app-tier
+    volumes:
+      - type: bind
+        source: ./backend/interact-based
+        target: /app/interact-based
+    environment:
+      - OPENAI__OPENAI_API_KEY=${OPENAI__OPENAI_API_KEY}
+      - OPENAI__OPENAI_MODEL=${OPENAI__OPENAI_MODEL}
+      - OPENAI__OPENAI_EMBEDDING=${OPENAI__OPENAI_EMBEDDING}
+      - OPENAI__OPENAI_STREAM=${OPENAI__OPENAI_STREAM}
+      - OPENAI__MAX_TOKENS=${OPENAI__MAX_TOKENS}
+      - OPENAI__TEMPERATURE=${OPENAI__TEMPERATURE}
+      - OPENAI__TOP_P=${OPENAI__TOP_P}
+      - SEARCH__MAX_RESULTS=${SEARCH__MAX_RESULTS}
+      - SEARCH__LENGTH=${SEARCH__LENGTH}

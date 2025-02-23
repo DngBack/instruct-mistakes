@@ -12,7 +12,6 @@ RUN pip install --upgrade pip
 
 # Increase timeout to wait for the new installation
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install -U duckduckgo_search==5.3.1b1
 
 ENV LANG="C.UTF-8"
 
