@@ -1,0 +1,21 @@
+# Using a slim version for a smaller base image
+FROM python:3.10-slim-bullseye
+
+RUN apt-get update
+
+WORKDIR /app
+
+COPY interact-based/requirements.txt .
+
+# Upgrade pip
+RUN pip install --upgrade pip
+
+# Increase timeout to wait for the new installation
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -U duckduckgo_search==5.3.1b1
+
+ENV LANG="C.UTF-8"
+
+COPY interact-based /app/interact-based
+
+WORKDIR /app/interact-based
