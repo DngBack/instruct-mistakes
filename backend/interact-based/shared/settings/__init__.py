@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from .db import PostgresDB
 from .models import AWSBedrockSettings
 from .models import OpenAISettings
 from .settings import load_settings
@@ -10,4 +11,5 @@ __all__ = [
     'Settings',
     'load_settings',
     'AWSBedrockSettings',
+    'PostgresDB',
 ]

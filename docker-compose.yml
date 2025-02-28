@@ -28,3 +28,15 @@ services:
       - OPENAI__TOP_P=${OPENAI__TOP_P}
       - SEARCH__MAX_RESULTS=${SEARCH__MAX_RESULTS}
       - SEARCH__LENGTH=${SEARCH__LENGTH}
+
+  postgres:
+      image: postgres:17.0-alpine
+      restart: always
+      ports:
+        - 15432:5432
+      networks:
+        - app-tier
+      environment:
+        - POSTGRES_USER=${POSTGRES__USERNAME}
+        - POSTGRES_PASSWORD=${POSTGRES__PASSWORD}
+        - POSTGRES_DB=${POSTGRES__DB}
