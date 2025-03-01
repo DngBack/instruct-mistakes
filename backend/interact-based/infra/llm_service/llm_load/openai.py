@@ -74,9 +74,21 @@ class OpenAIService(LLMBaseService):
         user_prompt: str,
         json_mode: bool,
     ) -> str:
+        """
+        Perform inference using the AWS Sonnet model.
+
+        Args:
+            user_prompt (str): The user's input prompt.
+            system_prompt (str): The system's instructions.
+            json_mode (bool): Whether to return the response in JSON format.
+
+        Returns:
+            Optional[Union[str, dict]]: The response from the model, either as a string or a JSON object.
+        """
         if system_prompt:
             messages = self._get_system_users_messages(
-                user_prompt, system_prompt,
+                user_prompt,
+                system_prompt,
             )
         else:
             messages = self._get_users_messages(user_prompt)
@@ -95,6 +107,15 @@ class OpenAIService(LLMBaseService):
         return response
 
     def _get_users_messages(self, user_prompt: str) -> list[dict]:
+        """
+        Process the input request and generate a response from AWS Sonnet.
+
+        Args:
+            inputs (AWSSonnetInput): The input data for processing.
+
+        Returns:
+            AWSSonnetOutput: The output containing the response from the model.
+        """
         return [{'role': 'user', 'content': user_prompt}]
 
     def _get_system_users_messages(
@@ -102,6 +123,15 @@ class OpenAIService(LLMBaseService):
         user_prompt: str,
         system_prompt: str,
     ) -> list[dict]:
+        """
+        Create a system message for the AWS Sonnet model.
+
+        Args:
+            system_prompt (str): The system's instructions.
+
+        Returns:
+            list[dict]: A formatted system message list for the model.
+        """
         return [
             {'role': 'system', 'content': system_prompt},
             {'role': 'user', 'content': user_prompt},

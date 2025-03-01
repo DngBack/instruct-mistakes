@@ -8,17 +8,17 @@ from fastapi import APIRouter
 from fastapi import status
 from shared.logging import get_logger
 
-interact_based_router = APIRouter(prefix="/v1")
+interact_based_router = APIRouter(prefix='/v1')
 logger = get_logger(__name__)
 
 
 @interact_based_router.post(
-    "/prompting_interact_based/",
+    '/prompting_interact_based/',
     response_model=str,
-    tags=["interact_based"],
+    tags=['interact_based'],
     responses={
         status.HTTP_200_OK: {
-            "content": {},
+            'content': {},
         },
         status.HTTP_500_INTERNAL_SERVER_ERROR: ExceptionHandler.create_response_message(  # type: ignore
             ResponseMessage.INTERNAL_SERVER_ERROR,
@@ -39,9 +39,20 @@ async def send_questions_answer(
     correct_answer: str,
     exercies_type: str,
 ):
+    """
+    Processes the user's answer, compares it with the correct answer, and handles it based on the exercise type.
+
+    Args:
+        user_answer (str): The answer provided by the user.
+        correct_answer (str): The correct answer.
+        exercies_type (str): The type of exercise.
+
+    Returns:
+        str: The response from the interaction-based processing service.
+    """
     exception_handler = ExceptionHandler(
         logger=logger.bind(),
-        service_name="interact_based",
+        service_name='interact_based',
     )
 
     try:
@@ -59,13 +70,13 @@ async def send_questions_answer(
         return exception_handler.handle_exception(
             message=ResponseMessage.INTERNAL_SERVER_ERROR,
             extra={
-                "user_answer": user_answer,
-                "correct_answer": correct_answer,
-                "exercies_type": exercies_type,
+                'user_answer': user_answer,
+                'correct_answer': correct_answer,
+                'exercies_type': exercies_type,
             },
         )
 
 
-@interact_based_router.get("/healthz", tags=["infor_extractor"])
+@interact_based_router.get('/healthz', tags=['infor_extractor'])
 async def healthz():
-    return {"status": "ok"}
+    return {'status': 'ok'}
