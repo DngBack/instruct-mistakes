@@ -12,7 +12,7 @@ from shared.base import BaseService
 class LLMBaseService(BaseService):
     @property
     @abstractmethod
-    def client(self, input: Any) -> Any:
+    def client(self) -> Any:
         raise NotImplementedError()
 
     @abstractmethod
@@ -47,7 +47,9 @@ class LLMBaseService(BaseService):
 
         # extract json object from text
         curly_brackets_match = re.search(
-            r'\{.*\}', text.strip(), re.MULTILINE | re.IGNORECASE | re.DOTALL,
+            r'\{.*\}',
+            text.strip(),
+            re.MULTILINE | re.IGNORECASE | re.DOTALL,
         )
         if curly_brackets_match:
             json_str = curly_brackets_match.group().replace('{  ', '{')
